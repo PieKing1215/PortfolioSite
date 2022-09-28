@@ -1,0 +1,38 @@
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+#project-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 80vw;
+    margin: 0 auto; //center
+    
+    border: 1px solid black;
+
+    .project {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: calc(50% - 40px);
+        height: 200px;
+        margin: 20px;
+        padding: 20px;
+
+        border: 1px solid black;
+        text-decoration: none;
+
+        .icon {
+            height: 150px;
+            margin-right: 20px;
+        }
+
+        >div {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}

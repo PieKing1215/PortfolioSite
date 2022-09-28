@@ -1,0 +1,11 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "SCSS",
+            "type": "shell",
+            "command": "sass --watch static/scss:static/css",
+            "runOptions": { "runOn": "folderOpen" }
+        }
+    ]
+}
