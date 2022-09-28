@@ -1,0 +1,25 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    font-family: Asap, proxima-nova, Arial, sans-serif;
+}
+
+@font-face {
+    font-family: Homizio Nova;
+    src: url("../assets/font/homizio nova/regular.ttf");
+    font-weight: bold;
+    line-height: 20px;
+}
+
+@font-face {
+    font-family: Asap;
+    src: url("../assets/font/asap/Asap-SemiBold.ttf");
+    font-weight: bold;
+    line-height: 20px;
+}
+
+@font-face {
+    font-family: AsapBold;
+    src: url("../assets/font/asap/Asap-Bold.ttf");
+    font-weight: bold;
+    line-height: 20px;
+}

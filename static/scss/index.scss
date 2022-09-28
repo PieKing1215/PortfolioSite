@@ -1,8 +1,5 @@
 
-*, *::before, *::after {
-    box-sizing: border-box;
-    font-family: Helvetica, Arial, sans-serif;
-}
+@use "common";
 
 #project-list {
     display: flex;
