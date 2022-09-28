@@ -1,7 +1,7 @@
 use perseus::{Html, RenderFnResultWithCause, SsrNode, Template};
-use sycamore::{prelude::{view, Scope, View, Indexed}};
+use sycamore::prelude::{view, Indexed, Scope, View};
 
-use crate::data::project::{Project, get_projects};
+use crate::data::project::{get_projects, Project};
 
 #[perseus::make_rx(IndexPageStateRx)]
 pub struct IndexPageState {
@@ -11,7 +11,6 @@ pub struct IndexPageState {
 
 #[perseus::template_rx]
 pub fn index_page<'a, G: Html>(cx: Scope<'a>, state: IndexPageStateRx<'a>) -> View<G> {
-    
     view! { cx,
         h1 { (state.greeting.get()) }
         a(href = "about", id = "about-link") { "About!" }
@@ -59,4 +58,3 @@ pub async fn get_build_state(
         projects: get_projects(),
     })
 }
-

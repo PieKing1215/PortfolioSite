@@ -6,6 +6,12 @@
             "type": "shell",
             "command": "sass --watch static/scss:static/css",
             "runOptions": { "runOn": "folderOpen" }
+        },
+        {
+            "label": "Perseus",
+            "type": "shell",
+            "command": "perseus export -sw",
+            "runOptions": { "runOn": "folderOpen" }
         }
     ]
 }

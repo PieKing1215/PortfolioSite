@@ -1,6 +1,6 @@
+pub mod data;
 mod error_pages;
 mod templates;
-pub mod data;
 
 use perseus::{Html, PerseusApp};
 
@@ -12,4 +12,3 @@ pub fn main<G: Html>() -> PerseusApp<G> {
         .template(crate::templates::project::get_template)
         .error_pages(crate::error_pages::get_error_pages)
 }
-

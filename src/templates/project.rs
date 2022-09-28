@@ -1,7 +1,7 @@
-use perseus::{Html, RenderFnResultWithCause, SsrNode, Template, RenderFnResult};
-use sycamore::{prelude::{view, Scope, View}};
+use perseus::{Html, RenderFnResult, RenderFnResultWithCause, SsrNode, Template};
+use sycamore::prelude::{view, Scope, View};
 
-use crate::data::project::{Project, get_projects};
+use crate::data::project::{get_projects, Project};
 
 #[perseus::make_rx(ProjectPageStateRx)]
 pub struct ProjectPageState {
@@ -10,7 +10,6 @@ pub struct ProjectPageState {
 
 #[perseus::template_rx]
 pub fn project_page<'a, G: Html>(cx: Scope<'a>, state: ProjectPageStateRx<'a>) -> View<G> {
-    
     view! { cx,
         h1 { (state.project.get().name) }
         a(href = "", id = "home-link") { "Home!" }
@@ -50,7 +49,10 @@ pub async fn get_build_state(
     _locale: String,
 ) -> RenderFnResultWithCause<ProjectPageState> {
     Ok(ProjectPageState {
-        project: get_projects().into_iter().find(|p| format!("project/{}", p.id) == path).expect(&path),
+        project: get_projects()
+            .into_iter()
+            .find(|p| format!("project/{}", p.id) == path)
+            .expect(&path),
     })
 }
 
