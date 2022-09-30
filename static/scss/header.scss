@@ -1,0 +1,24 @@
+
+@use "common";
+
+header {
+    width: 100%;
+    padding: 10px;
+
+    background-color: #222;
+
+    h1 {
+        font-family: Homizio Nova;
+        letter-spacing: 1px;
+        text-align: center;
+        margin-top: 0;
+        color: #eee;
+        font-size: 28pt;
+    }
+
+    p {
+        text-align: center;
+        font-size: 14pt;
+        color: #ddd;
+    }
+}

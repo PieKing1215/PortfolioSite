@@ -1,3 +1,4 @@
+use crate::templates::{header::Header, navbar::Navbar};
 use perseus::{Html, RenderFnResultWithCause, SsrNode, Template};
 use sycamore::prelude::{view, Indexed, Scope, View};
 
@@ -12,21 +13,37 @@ pub struct IndexPageState {
 #[perseus::template_rx]
 pub fn index_page<'a, G: Html>(cx: Scope<'a>, state: IndexPageStateRx<'a>) -> View<G> {
     view! { cx,
-        h1 { (state.greeting.get()) }
-        a(href = "about", id = "about-link") { "About!" }
+        Header()
+        Navbar()
+        div(id="about") {
+            h2(class="section-header") {
+                "About Me"
+            }
+            p {
+                "I am a programmer and game developer currently attending Worcester Polytechnic Institute pursuing a double major in Computer Science and in Interactive Media & Game Development."
+            }
+        }
         div(id="project-list") {
-            Indexed(
-                iterable = state.projects,
-                view = |cx, item| view! { cx,
-                    a(class="project", href = format!("project/{}", item.id)) {
-                        img(class="icon", src=format!(".perseus/static/assets/project_icon/{}.png", item.icon)) {}
-                        div {
-                            h2(class="title") { (item.name) }
-                            p(class="desc") { (item.desc) }
+            h2(class="section-header") {
+                "Projects"
+            }
+            div(class="tags-area") {
+
+            }
+            div(class="list") {
+                Indexed(
+                    iterable = state.projects,
+                    view = |cx, item| view! { cx,
+                        a(class="project", href = format!("project/{}", item.id)) {
+                            img(class="icon", src=format!(".perseus/static/assets/project_icon/{}.png", item.icon)) {}
+                            div {
+                                h2(class="title") { (item.name) }
+                                p(class="desc", dangerously_set_inner_html=&item.desc)
+                            }
                         }
-                    }
-                },
-            )
+                    },
+                )
+            }
         }
     }
 }
@@ -43,7 +60,7 @@ pub fn head(cx: Scope, _props: IndexPageState) -> View<SsrNode> {
     view! { cx,
         meta(charset = "UTF-8")
         meta(name = "viewport", content = "width=device-width, initial-scale=1.0")
-        title { "Index Page | Perseus Example – Basic" }
+        title { "David Mahany - Portfolio" }
         link(rel = "stylesheet", href = ".perseus/static/css/index.css")
     }
 }

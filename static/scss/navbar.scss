@@ -1,0 +1,17 @@
+
+@use "common";
+
+#navbar {
+    position: sticky;
+    width: 100%;
+    padding: 10px;
+    top: 0;
+
+    background-color: #555;
+
+    p {
+        margin: 0;
+        text-align: center;
+        color: #ddd;
+    }
+}
