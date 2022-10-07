@@ -23,7 +23,7 @@ pub fn projects_page<'a, G: Html>(cx: Scope<'a>, state: ProjectsPageStateRx<'a>)
     let projects = state.filter_tags.map(cx, |ft| {
         get_projects()
             .into_iter()
-            .filter(|p| ft.is_empty() || p.tags.iter().any(|t| ft.contains(t)))
+            .filter(|p| ft.iter().all(|t| p.tags.contains(t)))
             .collect()
     });
 
