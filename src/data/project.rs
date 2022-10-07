@@ -44,6 +44,29 @@ impl<G: Html> StringIntoViewFn<G> for &'static str {
 pub fn get_projects<G: Html>() -> Vec<Project<G>> {
     vec![
         Project {
+            id: "invmove".into(),
+            name: "InvMove".into(),
+            icon: "invmove".into(),
+            short_desc: Arc::new(|cx| {
+                view! { cx,
+                    p {
+                        "Open source Minecraft Forge/Fabric/Quilt mod that adds the ability to walk around while in inventories."
+                    }
+                    p {
+                        "600,000+ Downloads"
+                    }
+                }
+            }),
+            long_desc: Arc::new(|cx| {
+                view! { cx,
+                    p {
+                        "Minecraft Forge/Fabric/Quilt mod that adds the ability to walk around while in inventories "
+                    }
+                }
+            }),
+            tags: HashSet::from([Tag::Modding, Tag::Java]),
+        },
+        Project {
             id: "test1".into(),
             name: "Test 1".into(),
             icon: "test".into(),
