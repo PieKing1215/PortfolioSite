@@ -81,6 +81,7 @@ html {
         border: 1px solid red;
 
         .project {
+            position: relative;
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -102,6 +103,18 @@ html {
 
             &.expanded {
                 width: 100%;
+            }
+
+            >a {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                left: 0px;
+                top: 0px;
+
+                z-index: 0;
+
+                // background-color: #f005;
             }
 
             .icon {
@@ -130,6 +143,8 @@ html {
                 .tags {
                     display: flex;
                     flex-direction: row;
+
+                    z-index: 4;
                 }
             }
         }

@@ -69,8 +69,9 @@ pub fn projects_page<'a, G: Html>(cx: Scope<'a>, state: ProjectsPageStateRx<'a>)
             div(class="list") {
                 Indexed(
                     iterable = projects,
-                    view = |cx, item| view! { cx,
-                        a(class="project", href = format!("project/{}", item.id)) {
+                    view = move |cx, item| view! { cx,
+                        div(class="project") {
+                            a(href = format!("project/{}", item.id))
                             img(class="icon", src=format!(".perseus/static/assets/project_icon/{}.png", item.icon)) {}
                             div {
                                 h2(class="title") { (item.name) }
@@ -78,8 +79,14 @@ pub fn projects_page<'a, G: Html>(cx: Scope<'a>, state: ProjectsPageStateRx<'a>)
                                 div(class="tags") {
                                     Indexed(
                                         iterable = create_signal(cx, item.tags.into_iter().collect()),
-                                        view = |cx, item| view! { cx,
-                                            div(class="tag") {
+                                        view = move |cx, item| view! { cx,
+                                            div(class=if state.filter_tags.get().contains(&item) { "tag active" } else { "tag" }, on:click = move |_| {
+                                                if state.filter_tags.get().contains(&item) {
+                                                    state.filter_tags.modify().remove(&item);
+                                                } else {
+                                                    state.filter_tags.modify().insert(item);
+                                                }
+                                            }) {
                                                 (format!("{item:?}"))
                                             }
                                         }
