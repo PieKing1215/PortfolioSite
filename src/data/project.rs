@@ -9,9 +9,20 @@ pub struct Project<G: Html> {
     pub id: String,
     pub name: String,
     pub icon: String,
+    pub date: Option<(String, Option<String>)>,
     pub short_desc: Arc<dyn Fn(Scope) -> View<G>>,
     pub long_desc: Arc<dyn Fn(Scope) -> View<G>>,
     pub tags: HashSet<Tag>, // could use linked_hash_set to preserve order
+}
+
+impl<G: Html> Project<G> {
+    pub fn format_date(&self) -> String {
+        match &self.date {
+            Some((start, Some(end))) => format!("({start}\u{2013}{end})"),
+            Some((start, None)) => format!("({start}\u{2013})"),
+            None => String::new(),
+        }
+    }
 }
 
 impl<G: Html> PartialEq for Project<G> {
@@ -47,13 +58,14 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
             id: "invmove".into(),
             name: "InvMove".into(),
             icon: "invmove".into(),
+            date: Some(("2019".into(), None)),
             short_desc: Arc::new(|cx| {
                 view! { cx,
                     p {
                         "Open source Minecraft Forge/Fabric/Quilt mod that adds the ability to walk around while in inventories."
                     }
                     p {
-                        "600,000+ Downloads"
+                        "700,000+ Downloads"
                     }
                 }
             }),
@@ -70,6 +82,7 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
             id: "test1".into(),
             name: "Test 1".into(),
             icon: "test".into(),
+            date: None,
             short_desc: Arc::new(|cx| {
                 view! { cx,
                     p {
@@ -90,6 +103,7 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
             id: "test2".into(),
             name: "Test 2".into(),
             icon: "test2".into(),
+            date: None,
             short_desc: "Description for test 2<br>here".into_view_fn(),
             long_desc: "Description for test 2<br>here".into_view_fn(),
             tags: HashSet::from([]),
@@ -98,6 +112,7 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
             id: "test3".into(),
             name: "Test 3".into(),
             icon: "test".into(),
+            date: None,
             short_desc: "Description for test 3<br>here".into_view_fn(),
             long_desc: "Description for test 3<br>here".into_view_fn(),
             tags: HashSet::from([]),
@@ -106,6 +121,7 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
             id: "test4".into(),
             name: "Test 4".into(),
             icon: "test2".into(),
+            date: None,
             short_desc: "Description for test 4<br>here".into_view_fn(),
             long_desc: "Description for test 4<br>here".into_view_fn(),
             tags: HashSet::from([]),
@@ -114,6 +130,7 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
             id: "test4".into(),
             name: "Test 4".into(),
             icon: "test2".into(),
+            date: None,
             short_desc: "Description for test 4<br>here".into_view_fn(),
             long_desc: "Description for test 4<br>here".into_view_fn(),
             tags: HashSet::from([]),
@@ -122,6 +139,7 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
             id: "test4".into(),
             name: "Test 4".into(),
             icon: "test2".into(),
+            date: None,
             short_desc: "Description for test 4<br>here".into_view_fn(),
             long_desc: "Description for test 4<br>here".into_view_fn(),
             tags: HashSet::from([]),
@@ -130,6 +148,7 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
             id: "test4".into(),
             name: "Test 4".into(),
             icon: "test2".into(),
+            date: None,
             short_desc: "Description for test 4<br>here".into_view_fn(),
             long_desc: "Description for test 4<br>here".into_view_fn(),
             tags: HashSet::from([]),
@@ -138,6 +157,7 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
             id: "test4".into(),
             name: "Test 4".into(),
             icon: "test2".into(),
+            date: None,
             short_desc: "Description for test 4<br>here".into_view_fn(),
             long_desc: "Description for test 4<br>here".into_view_fn(),
             tags: HashSet::from([]),
@@ -146,6 +166,7 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
             id: "test4".into(),
             name: "Test 4".into(),
             icon: "test2".into(),
+            date: None,
             short_desc: "Description for test 4<br>here".into_view_fn(),
             long_desc: "Description for test 4<br>here".into_view_fn(),
             tags: HashSet::from([]),
@@ -154,6 +175,7 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
             id: "test4".into(),
             name: "Test 4".into(),
             icon: "test2".into(),
+            date: None,
             short_desc: "Description for test 4<br>here".into_view_fn(),
             long_desc: "Description for test 4<br>here".into_view_fn(),
             tags: HashSet::from([]),
@@ -162,6 +184,7 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
             id: "test4".into(),
             name: "Test 4".into(),
             icon: "test2".into(),
+            date: None,
             short_desc: "Description for test 4<br>here".into_view_fn(),
             long_desc: "Description for test 4<br>here".into_view_fn(),
             tags: HashSet::from([]),
@@ -170,6 +193,7 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
             id: "test4".into(),
             name: "Test 4".into(),
             icon: "test2".into(),
+            date: None,
             short_desc: "Description for test 4<br>here".into_view_fn(),
             long_desc: "Description for test 4<br>here".into_view_fn(),
             tags: HashSet::from([]),
@@ -178,6 +202,7 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
             id: "test4".into(),
             name: "Test 4".into(),
             icon: "test2".into(),
+            date: None,
             short_desc: "Description for test 4<br>here".into_view_fn(),
             long_desc: "Description for test 4<br>here".into_view_fn(),
             tags: HashSet::from([]),
@@ -186,6 +211,7 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
             id: "test4".into(),
             name: "Test 4".into(),
             icon: "test2".into(),
+            date: None,
             short_desc: "Description for test 4<br>here".into_view_fn(),
             long_desc: "Description for test 4<br>here".into_view_fn(),
             tags: HashSet::from([]),
@@ -194,6 +220,7 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
             id: "test4".into(),
             name: "Test 4".into(),
             icon: "test2".into(),
+            date: None,
             short_desc: "Description for test 4<br>here".into_view_fn(),
             long_desc: "Description for test 4<br>here".into_view_fn(),
             tags: HashSet::from([]),
@@ -202,6 +229,7 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
             id: "test4".into(),
             name: "Test 4".into(),
             icon: "test2".into(),
+            date: None,
             short_desc: "Description for test 4<br>here".into_view_fn(),
             long_desc: "Description for test 4<br>here".into_view_fn(),
             tags: HashSet::from([]),

@@ -69,30 +69,37 @@ pub fn projects_page<'a, G: Html>(cx: Scope<'a>, state: ProjectsPageStateRx<'a>)
             div(class="list") {
                 Indexed(
                     iterable = projects,
-                    view = move |cx, item| view! { cx,
-                        div(class="project") {
-                            a(href = format!("project/{}", item.id))
-                            img(class="icon", src=format!(".perseus/static/assets/project_icon/{}.png", item.icon)) {}
-                            div {
-                                h2(class="title") { (item.name) }
-                                div(class="desc") { ((item.short_desc)(cx)) }
-                                div(class="tags") {
-                                    Indexed(
-                                        iterable = create_signal(cx, item.tags.into_iter().collect()),
-                                        view = move |cx, item| view! { cx,
-                                            div(class=if state.filter_tags.get().contains(&item) { "tag active" } else { "tag" }, on:click = move |_| {
-                                                if state.filter_tags.get().contains(&item) {
-                                                    state.filter_tags.modify().remove(&item);
-                                                } else {
-                                                    state.filter_tags.modify().insert(item);
+                    view = move |cx, item| {
+                        let date = item.format_date();
+
+                        view! { cx,
+                            div(class="project") {
+                                a(href = format!("project/{}", item.id))
+                                img(class="icon", src=format!(".perseus/static/assets/project_icon/{}.png", item.icon)) {}
+                                div {
+                                    div(class="title") {
+                                        h2(class="name") { (item.name) }
+                                        h3(class="date") { (date) }
+                                    }
+                                    div(class="desc") { ((item.short_desc)(cx)) }
+                                    div(class="tags") {
+                                        Indexed(
+                                            iterable = create_signal(cx, item.tags.into_iter().collect()),
+                                            view = move |cx, item| view! { cx,
+                                                div(class=if state.filter_tags.get().contains(&item) { "tag active" } else { "tag" }, on:click = move |_| {
+                                                    if state.filter_tags.get().contains(&item) {
+                                                        state.filter_tags.modify().remove(&item);
+                                                    } else {
+                                                        state.filter_tags.modify().insert(item);
+                                                    }
+                                                }) {
+                                                    (format!("{item:?}"))
                                                 }
-                                            }) {
-                                                (format!("{item:?}"))
                                             }
-                                        }
-                                    )
+                                        )
+                                    }
+                                    // p(class="desc", dangerously_set_inner_html=&item.desc)
                                 }
-                                // p(class="desc", dangerously_set_inner_html=&item.desc)
                             }
                         }
                     },
