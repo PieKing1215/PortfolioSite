@@ -27,8 +27,28 @@ pub fn projects_page<'a, G: Html>(cx: Scope<'a>, state: ProjectsPageStateRx<'a>)
             .collect()
     });
 
-    let tags = create_signal(cx, vec![Tag::Modding]);
-    let langs = create_signal(cx, vec![Tag::Rust, Tag::Java]);
+    let tags = create_signal(
+        cx,
+        vec![
+            Tag::Web,
+            Tag::Modding,
+            Tag::GameDev,
+            Tag::Unity,
+            Tag::Minecraft,
+            Tag::pxtone,
+        ],
+    );
+    let langs = create_signal(
+        cx,
+        vec![
+            Tag::Rust,
+            Tag::Java,
+            Tag::JavaScript,
+            Tag::HTML,
+            Tag::CSS,
+            Tag::CSharp,
+        ],
+    );
 
     view! { cx,
         Header()
@@ -52,6 +72,8 @@ pub fn projects_page<'a, G: Html>(cx: Scope<'a>, state: ProjectsPageStateRx<'a>)
                             }) { (format!("{item:?}")) }
                         }
                     )
+                }
+                div(class="tags-container") {
                     Indexed(
                         iterable = langs,
                         view = move |cx, item| view! { cx,
@@ -71,14 +93,25 @@ pub fn projects_page<'a, G: Html>(cx: Scope<'a>, state: ProjectsPageStateRx<'a>)
                     iterable = projects,
                     view = move |cx, item| {
                         let date = item.format_date();
+                        let name_len = item.name.len();
+                        let name_size = if name_len >= 20 { "size3" } else if name_len >= 12 { "size2" } else { "size1" };
+
+                        let icon = if item.icon.is_some() {
+                            let icon_clone = item.icon.clone().unwrap();
+                            view!{ cx,
+                                img(class="icon", src=format!(".perseus/static/assets/project_icon/{}.png", icon_clone)) {}
+                            }
+                        } else {
+                            view!{ cx, }
+                        };
 
                         view! { cx,
                             div(class="project") {
                                 a(href = format!("project/{}", item.id))
-                                img(class="icon", src=format!(".perseus/static/assets/project_icon/{}.png", item.icon)) {}
+                                (icon)
                                 div {
                                     div(class="title") {
-                                        h2(class="name") { (item.name) }
+                                        h2(class=format!("name {name_size}")) { (item.name) }
                                         h3(class="date") { (date) }
                                     }
                                     div(class="desc") { ((item.short_desc)(cx)) }
@@ -98,7 +131,6 @@ pub fn projects_page<'a, G: Html>(cx: Scope<'a>, state: ProjectsPageStateRx<'a>)
                                             }
                                         )
                                     }
-                                    // p(class="desc", dangerously_set_inner_html=&item.desc)
                                 }
                             }
                         }

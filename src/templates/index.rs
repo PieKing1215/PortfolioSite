@@ -36,7 +36,14 @@ pub fn index_page<'a, G: Html>(cx: Scope<'a>, _state: IndexPageStateRx<'a>) -> V
                     iterable = projects,
                     view = |cx, item| view! { cx,
                         a(class="project", href = format!("project/{}", item.id)) {
-                            img(class="icon", src=format!(".perseus/static/assets/project_icon/{}.png", item.icon)) {}
+                            (if item.icon.is_some() {
+                                let icon_clone = item.icon.clone().unwrap();
+                                view!{ cx,
+                                    img(class="icon", src=format!(".perseus/static/assets/project_icon/{}.png", icon_clone)) {}
+                                }
+                            } else {
+                                View::empty()
+                            })
                             div {
                                 h2(class="title") { (item.name) }
                                 ((item.short_desc)(cx))

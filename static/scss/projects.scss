@@ -121,9 +121,14 @@ html {
             .icon {
                 height: 150px;
                 margin-right: 20px;
+                order: 0;
 
                 border: 2px solid black;
                 box-shadow: 4px 4px 8px #0004;
+
+                &.error {
+                    width: 0px;
+                }
             }
 
             >div {
@@ -132,22 +137,36 @@ html {
                 justify-content: flex-start;
                 height: 100%;
                 padding-bottom: 6px;
+                order: 1;
 
                 .title {
-                    margin-top: 6px;
+                    margin-top: 0;
                     margin-bottom: 0;
 
                     .name {
                         display: inline;
                         margin: 0;
-                        font-size: 24pt;
+
+                        font-size: 22pt;
+
+                        &.size1 {
+                            font-size: 22pt;
+                        }
+                        
+                        &.size2 {
+                            font-size: 19pt;
+                        }
+                        
+                        &.size3 {
+                            font-size: 16pt;
+                        }
                     }
                     
                     .date {
                         display: inline;
                         margin: 0;
                         margin-left: 10px;
-                        font-size: 16pt;
+                        font-size: 14pt;
 
                         color: #333;
                     }
@@ -157,6 +176,11 @@ html {
                     flex-grow: 1;
 
                     overflow: hidden;
+
+                    * {
+                        position: relative;
+                        z-index: 1;
+                    }
 
                     p {
                         margin-top: 8px;
@@ -168,7 +192,9 @@ html {
                     display: flex;
                     flex-direction: row;
 
-                    z-index: 4;
+                    .tag {
+                        z-index: 4;
+                    }
                 }
             }
         }

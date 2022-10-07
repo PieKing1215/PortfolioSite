@@ -18,7 +18,14 @@ pub fn project_page<'a, G: Html>(cx: Scope<'a>, state: ProjectPageStateRx<'a>) -
         a(href = "", id = "home-link") { "Home!" }
         div(id="project-list") {
             div(class="project") {
-                img(class="icon", src=format!(".perseus/static/assets/project_icon/{}.png", project.icon)) {}
+                (if project.icon.is_some() {
+                    let icon_clone = project.icon.clone().unwrap();
+                    view!{ cx,
+                        img(class="icon", src=format!(".perseus/static/assets/project_icon/{}.png", icon_clone)) {}
+                    }
+                } else {
+                    View::empty()
+                })
                 div {
                     h2(class="title") { (project.name) }
                     div { ((project.long_desc)(cx)) }
