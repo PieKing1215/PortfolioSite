@@ -1,0 +1,137 @@
+
+@use "common";
+@use "header";
+@use "navbar";
+
+html {
+    overflow-y: scroll;
+}
+
+.section-header {
+    text-align: center;
+    text-decoration: underline;
+}
+
+#about {
+    width: 40vw;
+    margin: 0 auto; //center
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+
+    border: 1px solid black;
+    text-align: center;
+
+    p {
+        font-size: 14pt;
+    }
+}
+
+#project-list {
+    max-width: 90vw;
+    margin: 0 auto; //center
+
+    border: 1px solid black;
+
+    .tag {
+        padding-top: 2px;
+        padding-bottom: 3px;
+        padding-right: 6px;
+        padding-left: 6px;
+        margin-right: 6px;
+
+        border-radius: 6px;
+        border: 1px solid black;
+        background-color: #444;
+        color: #ddd;
+        cursor: pointer;
+        user-select: none;
+
+        &:hover {
+            background-color: #777;
+        }
+
+        &.active {
+            background-color: #eeb;
+            color: #221;
+
+            &:hover {
+                background-color: #dda;
+            }
+        }
+    }
+
+    .tags-area {
+        width: 100%;
+        text-align: center;
+
+        .tags-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin: 4px;
+        }
+    }
+
+    .list {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        border: 1px solid red;
+
+        .project {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: calc(50% - 40px);
+            max-width: 700px;
+            min-width: 500px;
+            height: 200px;
+            margin: 20px;
+            padding: 20px;
+
+            border: 1px solid black;
+            color: black;
+            text-decoration: none;
+            overflow: hidden;
+
+            &:hover {
+                background-color: #eee;
+            }
+
+            &.expanded {
+                width: 100%;
+            }
+
+            .icon {
+                height: 150px;
+                margin-right: 20px;
+            }
+
+            >div {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                height: 100%;
+                padding-bottom: 8px;
+
+                h2 {
+                    margin-top: 6px;
+                    margin-bottom: 4px;
+                }
+
+                .desc {
+                    flex-grow: 1;
+
+                    overflow: hidden;
+                }
+
+                .tags {
+                    display: flex;
+                    flex-direction: row;
+                }
+            }
+        }
+    }
+}

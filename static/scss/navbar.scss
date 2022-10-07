@@ -2,16 +2,20 @@
 @use "common";
 
 #navbar {
+    display: flex;
+    justify-content: center;
     position: sticky;
     width: 100%;
     padding: 10px;
+    padding-top: 8px;
     top: 0;
 
     background-color: #555;
 
-    p {
-        margin: 0;
-        text-align: center;
+    a {
+        margin-left: 10px;
+        margin-right: 10px;
+        
         color: #ddd;
     }
 }

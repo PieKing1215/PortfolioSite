@@ -4,8 +4,14 @@ use sycamore::prelude::*;
 pub fn Navbar<G: Html>(cx: Scope) -> View<G> {
     view! { cx,
         div(id="navbar") {
-            p {
-                "Navbar here"
+            a(href="") {
+                "Home"
+            }
+            a(href="projects") {
+                "Projects"
+            }
+            a(href="about") {
+                "About"
             }
         }
     }

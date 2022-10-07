@@ -1,80 +1,187 @@
-use serde::{Deserialize, Serialize};
+use std::{collections::HashSet, sync::Arc};
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
-pub struct Project {
+use serde::{Deserialize, Serialize};
+use sycamore::prelude::*;
+
+// #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Clone)]
+pub struct Project<G: Html> {
     pub id: String,
     pub name: String,
-    pub desc: String,
     pub icon: String,
+    pub short_desc: Arc<dyn Fn(Scope) -> View<G>>,
+    pub long_desc: Arc<dyn Fn(Scope) -> View<G>>,
+    pub tags: HashSet<Tag>, // could use linked_hash_set to preserve order
 }
 
-pub fn get_projects() -> Vec<Project> {
+impl<G: Html> PartialEq for Project<G> {
+    fn eq(&self, other: &Self) -> bool {
+        self.id == other.id && self.name == other.name && self.icon == other.icon
+    }
+}
+
+#[derive(Clone, Copy, Debug, Hash, PartialEq, Eq, Serialize, Deserialize)]
+pub enum Tag {
+    Rust,
+    Modding,
+    Java,
+}
+
+trait StringIntoViewFn<G: Html> {
+    fn into_view_fn(self) -> Arc<dyn Fn(Scope) -> View<G>>;
+}
+
+impl<G: Html> StringIntoViewFn<G> for &'static str {
+    fn into_view_fn(self) -> Arc<dyn Fn(Scope) -> View<G>> {
+        Arc::new(move |cx| {
+            view! { cx,
+                p(dangerously_set_inner_html = self) {}
+            }
+        })
+    }
+}
+
+pub fn get_projects<G: Html>() -> Vec<Project<G>> {
     vec![
         Project {
             id: "test1".into(),
             name: "Test 1".into(),
-            desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.".into(),
             icon: "test".into(),
+            short_desc: Arc::new(|cx| {
+                view! { cx,
+                    p {
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim ..."
+                    }
+                }
+            }),
+            long_desc: Arc::new(|cx| {
+                view! { cx,
+                    p {
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                    }
+                }
+            }),
+            tags: HashSet::from([Tag::Modding, Tag::Rust, Tag::Java]),
         },
         Project {
             id: "test2".into(),
             name: "Test 2".into(),
-            desc: "Description for test 2<br>here".into(),
             icon: "test2".into(),
+            short_desc: "Description for test 2<br>here".into_view_fn(),
+            long_desc: "Description for test 2<br>here".into_view_fn(),
+            tags: HashSet::from([]),
         },
         Project {
             id: "test3".into(),
             name: "Test 3".into(),
-            desc: "Description for test 3<br>here".into(),
             icon: "test".into(),
+            short_desc: "Description for test 3<br>here".into_view_fn(),
+            long_desc: "Description for test 3<br>here".into_view_fn(),
+            tags: HashSet::from([]),
         },
         Project {
             id: "test4".into(),
             name: "Test 4".into(),
-            desc: "Description for test 4<br>here".into(),
             icon: "test2".into(),
+            short_desc: "Description for test 4<br>here".into_view_fn(),
+            long_desc: "Description for test 4<br>here".into_view_fn(),
+            tags: HashSet::from([]),
         },
         Project {
             id: "test4".into(),
             name: "Test 4".into(),
-            desc: "Description for test 4<br>here".into(),
             icon: "test2".into(),
+            short_desc: "Description for test 4<br>here".into_view_fn(),
+            long_desc: "Description for test 4<br>here".into_view_fn(),
+            tags: HashSet::from([]),
         },
         Project {
             id: "test4".into(),
             name: "Test 4".into(),
-            desc: "Description for test 4<br>here".into(),
             icon: "test2".into(),
+            short_desc: "Description for test 4<br>here".into_view_fn(),
+            long_desc: "Description for test 4<br>here".into_view_fn(),
+            tags: HashSet::from([]),
         },
         Project {
             id: "test4".into(),
             name: "Test 4".into(),
-            desc: "Description for test 4<br>here".into(),
             icon: "test2".into(),
+            short_desc: "Description for test 4<br>here".into_view_fn(),
+            long_desc: "Description for test 4<br>here".into_view_fn(),
+            tags: HashSet::from([]),
         },
         Project {
             id: "test4".into(),
             name: "Test 4".into(),
-            desc: "Description for test 4<br>here".into(),
             icon: "test2".into(),
+            short_desc: "Description for test 4<br>here".into_view_fn(),
+            long_desc: "Description for test 4<br>here".into_view_fn(),
+            tags: HashSet::from([]),
         },
         Project {
             id: "test4".into(),
             name: "Test 4".into(),
-            desc: "Description for test 4<br>here".into(),
             icon: "test2".into(),
+            short_desc: "Description for test 4<br>here".into_view_fn(),
+            long_desc: "Description for test 4<br>here".into_view_fn(),
+            tags: HashSet::from([]),
         },
         Project {
             id: "test4".into(),
             name: "Test 4".into(),
-            desc: "Description for test 4<br>here".into(),
             icon: "test2".into(),
+            short_desc: "Description for test 4<br>here".into_view_fn(),
+            long_desc: "Description for test 4<br>here".into_view_fn(),
+            tags: HashSet::from([]),
         },
         Project {
             id: "test4".into(),
             name: "Test 4".into(),
-            desc: "Description for test 4<br>here".into(),
             icon: "test2".into(),
+            short_desc: "Description for test 4<br>here".into_view_fn(),
+            long_desc: "Description for test 4<br>here".into_view_fn(),
+            tags: HashSet::from([]),
+        },
+        Project {
+            id: "test4".into(),
+            name: "Test 4".into(),
+            icon: "test2".into(),
+            short_desc: "Description for test 4<br>here".into_view_fn(),
+            long_desc: "Description for test 4<br>here".into_view_fn(),
+            tags: HashSet::from([]),
+        },
+        Project {
+            id: "test4".into(),
+            name: "Test 4".into(),
+            icon: "test2".into(),
+            short_desc: "Description for test 4<br>here".into_view_fn(),
+            long_desc: "Description for test 4<br>here".into_view_fn(),
+            tags: HashSet::from([]),
+        },
+        Project {
+            id: "test4".into(),
+            name: "Test 4".into(),
+            icon: "test2".into(),
+            short_desc: "Description for test 4<br>here".into_view_fn(),
+            long_desc: "Description for test 4<br>here".into_view_fn(),
+            tags: HashSet::from([]),
+        },
+        Project {
+            id: "test4".into(),
+            name: "Test 4".into(),
+            icon: "test2".into(),
+            short_desc: "Description for test 4<br>here".into_view_fn(),
+            long_desc: "Description for test 4<br>here".into_view_fn(),
+            tags: HashSet::from([]),
+        },
+        Project {
+            id: "test4".into(),
+            name: "Test 4".into(),
+            icon: "test2".into(),
+            short_desc: "Description for test 4<br>here".into_view_fn(),
+            long_desc: "Description for test 4<br>here".into_view_fn(),
+            tags: HashSet::from([]),
         },
     ]
 }

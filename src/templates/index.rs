@@ -1,17 +1,18 @@
 use crate::templates::{header::Header, navbar::Navbar};
 use perseus::{Html, RenderFnResultWithCause, SsrNode, Template};
 use sycamore::prelude::{view, Indexed, Scope, View};
+use sycamore::reactive::create_signal;
 
-use crate::data::project::{get_projects, Project};
+use crate::data::project::get_projects;
 
 #[perseus::make_rx(IndexPageStateRx)]
 pub struct IndexPageState {
     pub greeting: String,
-    pub projects: Vec<Project>,
 }
 
 #[perseus::template_rx]
-pub fn index_page<'a, G: Html>(cx: Scope<'a>, state: IndexPageStateRx<'a>) -> View<G> {
+pub fn index_page<'a, G: Html>(cx: Scope<'a>, _state: IndexPageStateRx<'a>) -> View<G> {
+    let projects = create_signal(cx, get_projects());
     view! { cx,
         Header()
         Navbar()
@@ -32,13 +33,14 @@ pub fn index_page<'a, G: Html>(cx: Scope<'a>, state: IndexPageStateRx<'a>) -> Vi
             }
             div(class="list") {
                 Indexed(
-                    iterable = state.projects,
+                    iterable = projects,
                     view = |cx, item| view! { cx,
                         a(class="project", href = format!("project/{}", item.id)) {
                             img(class="icon", src=format!(".perseus/static/assets/project_icon/{}.png", item.icon)) {}
                             div {
                                 h2(class="title") { (item.name) }
-                                p(class="desc", dangerously_set_inner_html=&item.desc)
+                                ((item.short_desc)(cx))
+                                // p(class="desc", dangerously_set_inner_html=&item.desc.preview::<G>(cx))
                             }
                         }
                     },
@@ -70,8 +72,5 @@ pub async fn get_build_state(
     _path: String,
     _locale: String,
 ) -> RenderFnResultWithCause<IndexPageState> {
-    Ok(IndexPageState {
-        greeting: "Hello World 4.0!".to_string(),
-        projects: get_projects(),
-    })
+    Ok(IndexPageState { greeting: "Hello World 4.0!".to_string() })
 }
