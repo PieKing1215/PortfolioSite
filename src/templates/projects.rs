@@ -1,6 +1,7 @@
 use std::collections::HashSet;
 
 use crate::{
+    component::project::project_list_entry::project_list_entry_generator,
     data::project::Tag,
     templates::{header::Header, navbar::Navbar},
 };
@@ -50,6 +51,29 @@ pub fn projects_page<'a, G: Html>(cx: Scope<'a>, state: ProjectsPageStateRx<'a>)
         ],
     );
 
+    fn tag_row<'a, G: Html>(
+        cx: BoundedScope<'_, 'a>,
+        list: &'a Signal<Vec<Tag>>,
+        filter_tags: &'a Signal<HashSet<Tag>>,
+    ) -> View<G> {
+        view! { cx,
+            div(class="tags-container") {
+                Indexed(
+                    iterable = list,
+                    view = move |cx, item| view! { cx,
+                        div(class = if filter_tags.get().contains(&item) { "tag active" } else { "tag" }, on:click = move |_| {
+                            if filter_tags.get().contains(&item) {
+                                filter_tags.modify().remove(&item);
+                            } else {
+                                filter_tags.modify().insert(item);
+                            }
+                        }) { (format!("{item:?}")) }
+                    }
+                )
+            }
+        }
+    }
+
     view! { cx,
         Header()
         Navbar()
@@ -61,82 +85,13 @@ pub fn projects_page<'a, G: Html>(cx: Scope<'a>, state: ProjectsPageStateRx<'a>)
                 h3 {
                     "Filter by Tags:"
                 }
-                div(class="tags-container") {
-                    Indexed(
-                        iterable = tags,
-                        view = move |cx, item| view! { cx,
-                            div(class = if state.filter_tags.get().contains(&item) { "tag active" } else { "tag" }, on:click = move |_| {
-                                if state.filter_tags.get().contains(&item) {
-                                    state.filter_tags.modify().remove(&item);
-                                } else {
-                                    state.filter_tags.modify().insert(item);
-                                }
-                            }) { (format!("{item:?}")) }
-                        }
-                    )
-                }
-                div(class="tags-container") {
-                    Indexed(
-                        iterable = langs,
-                        view = move |cx, item| view! { cx,
-                            div(class = if state.filter_tags.get().contains(&item) { "tag active" } else { "tag" }, on:click = move |_| {
-                                if state.filter_tags.get().contains(&item) {
-                                    state.filter_tags.modify().remove(&item);
-                                } else {
-                                    state.filter_tags.modify().insert(item);
-                                }
-                            }) { (format!("{item:?}")) }
-                        }
-                    )
-                }
+                (tag_row(cx, tags, state.filter_tags))
+                (tag_row(cx, langs, state.filter_tags))
             }
             div(class="list") {
                 Indexed(
                     iterable = projects,
-                    view = move |cx, item| {
-                        let date = item.format_date();
-                        let name_len = item.name.len();
-                        let name_size = if name_len >= 20 { "size3" } else if name_len >= 12 { "size2" } else { "size1" };
-
-                        let icon = if item.icon.is_some() {
-                            let icon_clone = item.icon.clone().unwrap();
-                            view!{ cx,
-                                img(class="icon", src=format!(".perseus/static/assets/project_icon/{}.png", icon_clone)) {}
-                            }
-                        } else {
-                            view!{ cx, }
-                        };
-
-                        view! { cx,
-                            div(class="project") {
-                                a(href = format!("project/{}", item.id))
-                                (icon)
-                                div {
-                                    div(class="title") {
-                                        h2(class=format!("name {name_size}")) { (item.name) }
-                                        h3(class="date") { (date) }
-                                    }
-                                    div(class="desc") { ((item.short_desc)(cx)) }
-                                    div(class="tags") {
-                                        Indexed(
-                                            iterable = create_signal(cx, item.tags.into_iter().collect()),
-                                            view = move |cx, item| view! { cx,
-                                                div(class=if state.filter_tags.get().contains(&item) { "tag active" } else { "tag" }, on:click = move |_| {
-                                                    if state.filter_tags.get().contains(&item) {
-                                                        state.filter_tags.modify().remove(&item);
-                                                    } else {
-                                                        state.filter_tags.modify().insert(item);
-                                                    }
-                                                }) {
-                                                    (format!("{item:?}"))
-                                                }
-                                            }
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    },
+                    view = project_list_entry_generator(state.filter_tags),
                 )
             }
         }

@@ -1,3 +1,6 @@
+use std::collections::HashSet;
+
+use crate::component::project::project_list_entry::project_list_entry_generator;
 use crate::templates::{header::Header, navbar::Navbar};
 use perseus::{Html, RenderFnResultWithCause, SsrNode, Template};
 use sycamore::prelude::{view, Indexed, Scope, View};
@@ -34,23 +37,7 @@ pub fn index_page<'a, G: Html>(cx: Scope<'a>, _state: IndexPageStateRx<'a>) -> V
             div(class="list") {
                 Indexed(
                     iterable = projects,
-                    view = |cx, item| view! { cx,
-                        a(class="project", href = format!("project/{}", item.id)) {
-                            (if item.icon.is_some() {
-                                let icon_clone = item.icon.clone().unwrap();
-                                view!{ cx,
-                                    img(class="icon", src=format!(".perseus/static/assets/project_icon/{}.png", icon_clone)) {}
-                                }
-                            } else {
-                                View::empty()
-                            })
-                            div {
-                                h2(class="title") { (item.name) }
-                                ((item.short_desc)(cx))
-                                // p(class="desc", dangerously_set_inner_html=&item.desc.preview::<G>(cx))
-                            }
-                        }
-                    },
+                    view = project_list_entry_generator(create_signal(cx, HashSet::new())),
                 )
             }
         }

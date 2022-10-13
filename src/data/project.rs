@@ -31,6 +31,18 @@ impl<G: Html> PartialEq for Project<G> {
     }
 }
 
+impl<G: Html> std::fmt::Debug for Project<G> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("Project")
+            .field("id", &self.id)
+            .field("name", &self.name)
+            .field("icon", &self.icon)
+            .field("date", &self.date)
+            .field("tags", &self.tags)
+            .finish()
+    }
+}
+
 #[derive(Clone, Copy, Debug, Hash, PartialEq, Eq, Serialize, Deserialize)]
 #[allow(non_camel_case_types)]
 pub enum Tag {
