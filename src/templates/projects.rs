@@ -1,9 +1,10 @@
 use std::collections::HashSet;
 
 use crate::{
-    component::project::project_list_entry::project_list_entry_generator,
+    component::{
+        header::Header, navbar::Navbar, project::project_list_entry::project_list_entry_generator,
+    },
     data::project::Tag,
-    templates::{header::Header, navbar::Navbar},
 };
 use perseus::{Html, RenderFnResultWithCause, SsrNode, Template};
 
