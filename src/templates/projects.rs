@@ -58,7 +58,9 @@ pub fn projects_page<'a, G: Html>(cx: Scope<'a>, state: ProjectsPageStateRx<'a>)
                 "Projects"
             }
             div(class="tags-area") {
-                "Filter by Tags:"
+                h3 {
+                    "Filter by Tags:"
+                }
                 div(class="tags-container") {
                     Indexed(
                         iterable = tags,

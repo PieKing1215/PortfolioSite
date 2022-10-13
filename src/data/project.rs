@@ -206,7 +206,7 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
         Project {
             id: "test3".into(),
             name: "Test 3".into(),
-            icon: Some("test".into()),
+            icon: None,
             date: None,
             short_desc: "Description for test 3<br>here".into_view_fn(),
             long_desc: "Description for test 3<br>here".into_view_fn(),
@@ -215,7 +215,7 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
         Project {
             id: "test4".into(),
             name: "Test 4".into(),
-            icon: Some("test2".into()),
+            icon: None,
             date: None,
             short_desc: "Description for test 4<br>here".into_view_fn(),
             long_desc: "Description for test 4<br>here".into_view_fn(),
@@ -224,7 +224,7 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
         Project {
             id: "test4".into(),
             name: "Test 4".into(),
-            icon: Some("test2".into()),
+            icon: None,
             date: None,
             short_desc: "Description for test 4<br>here".into_view_fn(),
             long_desc: "Description for test 4<br>here".into_view_fn(),
@@ -233,7 +233,7 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
         Project {
             id: "test4".into(),
             name: "Test 4".into(),
-            icon: Some("test2".into()),
+            icon: None,
             date: None,
             short_desc: "Description for test 4<br>here".into_view_fn(),
             long_desc: "Description for test 4<br>here".into_view_fn(),
