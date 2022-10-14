@@ -4,6 +4,10 @@
 @use "navbar";
 @use "projects";
 
+body,html {
+    background-color: #cdd;
+}
+
 .section-header {
     text-align: center;
     text-decoration: underline;

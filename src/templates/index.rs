@@ -1,5 +1,6 @@
 use std::collections::HashSet;
 
+use crate::component::footer::Footer;
 use crate::component::header::Header;
 use crate::component::navbar::Navbar;
 use crate::component::project::project_list_entry::project_list_entry_generator;
@@ -20,28 +21,31 @@ pub fn index_page<'a, G: Html>(cx: Scope<'a>, _state: IndexPageStateRx<'a>) -> V
     view! { cx,
         Header()
         Navbar()
-        div(id="about") {
-            h2(class="section-header") {
-                "About Me"
+        div (id="mainContent") {
+            div(id="about") {
+                h2(class="section-header") {
+                    "About Me"
+                }
+                p {
+                    "I am a programmer and game developer currently attending Worcester Polytechnic Institute pursuing a double major in Computer Science and in Interactive Media & Game Development."
+                }
             }
-            p {
-                "I am a programmer and game developer currently attending Worcester Polytechnic Institute pursuing a double major in Computer Science and in Interactive Media & Game Development."
-            }
-        }
-        div(id="project-list") {
-            h2(class="section-header") {
-                "Projects"
-            }
-            div(class="tags-area") {
+            div(id="project-list") {
+                h2(class="section-header") {
+                    "Projects"
+                }
+                div(class="tags-area") {
 
-            }
-            div(class="list") {
-                Indexed(
-                    iterable = projects,
-                    view = project_list_entry_generator(create_signal(cx, HashSet::new())),
-                )
+                }
+                div(class="list") {
+                    Indexed(
+                        iterable = projects,
+                        view = project_list_entry_generator(create_signal(cx, HashSet::new())),
+                    )
+                }
             }
         }
+        Footer()
     }
 }
 

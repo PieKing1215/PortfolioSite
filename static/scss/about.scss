@@ -1,3 +1,8 @@
 @use "common";
 @use "header";
 @use "navbar";
+@use "footer";
+
+body,html {
+    background-color: #dcc;
+}

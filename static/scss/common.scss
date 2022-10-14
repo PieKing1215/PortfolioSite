@@ -5,6 +5,19 @@
 
 body, html {
     margin: 0;
+
+    background-color: #ccc;
+}
+
+#root {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    
+    #mainContent {
+        flex-grow: 1;
+    }
 }
 
 @font-face {

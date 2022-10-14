@@ -1,14 +1,17 @@
 use perseus::Template;
 use sycamore::prelude::{view, Html, Scope, SsrNode, View};
 
-use crate::component::{header::Header, navbar::Navbar};
+use crate::component::{footer::Footer, header::Header, navbar::Navbar};
 
 #[perseus::template_rx]
 pub fn about_page<G: Html>(cx: Scope) -> View<G> {
     view! { cx,
         Header()
         Navbar()
-        p { "About." }
+        div (id="mainContent") {
+            p { "About." }
+        }
+        Footer()
     }
 }
 

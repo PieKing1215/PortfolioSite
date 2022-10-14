@@ -2,7 +2,8 @@ use std::collections::HashSet;
 
 use crate::{
     component::{
-        header::Header, navbar::Navbar, project::project_list_entry::project_list_entry_generator,
+        footer::Footer, header::Header, navbar::Navbar,
+        project::project_list_entry::project_list_entry_generator,
     },
     data::project::Tag,
 };
@@ -78,24 +79,27 @@ pub fn projects_page<'a, G: Html>(cx: Scope<'a>, state: ProjectsPageStateRx<'a>)
     view! { cx,
         Header()
         Navbar()
-        div(id="project-list") {
-            h2(class="section-header") {
-                "Projects"
-            }
-            div(class="tags-area") {
-                h3 {
-                    "Filter by Tags:"
+        div (id="mainContent") {
+            div(id="project-list") {
+                h2(class="section-header") {
+                    "Projects"
                 }
-                (tag_row(cx, tags, state.filter_tags))
-                (tag_row(cx, langs, state.filter_tags))
-            }
-            div(class="list") {
-                Indexed(
-                    iterable = projects,
-                    view = project_list_entry_generator(state.filter_tags),
-                )
+                div(class="tags-area") {
+                    h3 {
+                        "Filter by Tags:"
+                    }
+                    (tag_row(cx, tags, state.filter_tags))
+                    (tag_row(cx, langs, state.filter_tags))
+                }
+                div(class="list") {
+                    Indexed(
+                        iterable = projects,
+                        view = project_list_entry_generator(state.filter_tags),
+                    )
+                }
             }
         }
+        Footer()
     }
 }
 
