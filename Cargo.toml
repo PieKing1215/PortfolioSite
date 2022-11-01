@@ -12,6 +12,7 @@ sycamore = "^0.8.1"
 serde = { version = "1", features = [ "derive" ] }
 serde_json = "1"
 enum_dispatch = "0.3"
+num-format = "0.4"
 
 # Engine-only dependencies go here
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
@@ -20,3 +21,10 @@ perseus-warp = { version = "=0.4.0-beta.10", features = [ "dflt-server" ] }
 
 # Browser-only dependencies go here
 [target.'cfg(target_arch = "wasm32")'.dependencies]
+
+[build-dependencies]
+furse = "1.5"
+ferinth = "2"
+futures = "0.3"
+lazy_static = "1.4"
+tokio = { version = "1.21", features = ["macros", "io-util", "rt-multi-thread"] }

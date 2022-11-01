@@ -1,7 +1,11 @@
 use std::{collections::HashSet, sync::Arc};
 
+use num_format::{ToFormattedString, Locale};
 use serde::{Deserialize, Serialize};
 use sycamore::prelude::*;
+
+use super::mc_mods::invmove_download_count;
+
 
 // #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[derive(Clone)]
@@ -86,13 +90,13 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
             short_desc: Arc::new(|cx| {
                 view! { cx,
                     p { "Open source Minecraft Forge/Fabric/Quilt mod that adds the ability to walk around while in inventories." }
-                    p { "700,000+ Downloads" }
+                    p { ((invmove_download_count() / 10000 * 10000).to_formatted_string(&Locale::en)) "+ Downloads" }
                 }
             }),
             long_desc: Arc::new(|cx| {
                 view! { cx,
                     p { "Open source Minecraft Forge/Fabric/Quilt mod that adds the ability to walk around while in inventories." }
-                    p { "700,000+ Downloads" }
+                    p { ((invmove_download_count() / 10000 * 10000).to_formatted_string(&Locale::en)) "+ Downloads" }
                 }
             }),
         },
