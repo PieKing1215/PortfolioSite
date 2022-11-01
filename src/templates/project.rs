@@ -1,7 +1,10 @@
 use perseus::{Html, RenderFnResult, RenderFnResultWithCause, SsrNode, Template};
 use sycamore::prelude::*;
 
-use crate::data::project::get_projects;
+use crate::{
+    component::{footer::Footer, header::Header, navbar::Navbar},
+    data::project::get_projects,
+};
 
 #[perseus::make_rx(ProjectPageStateRx)]
 pub struct ProjectPageState {
@@ -14,25 +17,30 @@ pub fn project_page<'a, G: Html>(cx: Scope<'a>, state: ProjectPageStateRx<'a>) -
     let project2 = project.clone();
 
     view! { cx,
-        h1 { (project2.name) }
-        a(href = "", id = "home-link") { "Home!" }
-        div(id="project-list") {
-            div(class="project") {
-                (if project.icon.is_some() {
-                    let icon_clone = project.icon.clone().unwrap();
-                    view!{ cx,
-                        img(class="icon", src=format!(".perseus/static/assets/project_icon/{}.png", icon_clone)) {}
+        Header()
+        Navbar()
+        div (id="mainContent") {
+            h1 { (project2.name) }
+            a(href = "", id = "home-link") { "Home!" }
+            div(id="project-list") {
+                div(class="project") {
+                    (if project.icon.is_some() {
+                        let icon_clone = project.icon.clone().unwrap();
+                        view!{ cx,
+                            img(class="icon", src=format!(".perseus/static/assets/project_icon/{}.png", icon_clone)) {}
+                        }
+                    } else {
+                        View::empty()
+                    })
+                    div {
+                        h2(class="title") { (project.name) }
+                        div { ((project.long_desc)(cx)) }
+                        // p(class="desc") { (state.project.get().desc) }
                     }
-                } else {
-                    View::empty()
-                })
-                div {
-                    h2(class="title") { (project.name) }
-                    div { ((project.long_desc)(cx)) }
-                    // p(class="desc") { (state.project.get().desc) }
                 }
             }
         }
+        Footer()
     }
 }
 

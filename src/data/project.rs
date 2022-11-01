@@ -97,6 +97,8 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
                 view! { cx,
                     p { "Custom programming language and toolchain that bypasses the 4096 Lua character limit in Stormworks microcontrollers." }
                     p { "Compiler written in Rust with interpreter written in Lua." }
+                    p { "Main repo: " a(href="https://github.com/PieKing1215/SWScript") { "PieKing1215/SWScript" } }
+                    p { "Visual Studio Code Extension: " a(href="https://github.com/PieKing1215/vscode-swscript") { "PieKing1215/vscode-swscript" } }
                 }
             }),
         },
