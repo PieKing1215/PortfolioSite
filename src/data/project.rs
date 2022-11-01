@@ -1,11 +1,10 @@
-use std::{collections::HashSet, sync::Arc};
+use std::{cmp::Ordering, collections::HashSet, sync::Arc};
 
-use num_format::{ToFormattedString, Locale};
+use num_format::{Locale, ToFormattedString};
 use serde::{Deserialize, Serialize};
 use sycamore::prelude::*;
 
 use super::mc_mods::invmove_download_count;
-
 
 // #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[derive(Clone)]
@@ -80,7 +79,7 @@ impl<G: Html> StringIntoViewFn<G> for &'static str {
 }
 
 pub fn get_projects<G: Html>() -> Vec<Project<G>> {
-    vec![
+    let mut ps = vec![
         Project {
             id: "invmove".into(),
             name: "InvMove".into(),
@@ -255,5 +254,31 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
             long_desc: "Description for test 4<br>here".into_view_fn(),
             tags: HashSet::from([]),
         },
-    ]
+    ];
+    ps.sort_by(|a, b| match a.date.as_ref() {
+        Some((start, None)) => match b.date.as_ref() {
+            Some((b_start, None)) => {
+                if let (Ok(sa), Ok(sb)) = (start.parse::<u16>(), b_start.parse::<u16>()) {
+                    sb.cmp(&sa)
+                } else {
+                    Ordering::Equal
+                }
+            },
+            Some((b_start, Some(b_end))) => Ordering::Less,
+            None => Ordering::Less,
+        },
+        Some((start, Some(end))) => match b.date.as_ref() {
+            Some((b_start, None)) => Ordering::Greater,
+            Some((b_start, Some(b_end))) => Ordering::Equal,
+            None => Ordering::Less,
+        },
+        None => {
+            if b.date.is_some() {
+                Ordering::Greater
+            } else {
+                Ordering::Equal
+            }
+        },
+    });
+    ps
 }
