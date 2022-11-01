@@ -89,6 +89,17 @@ html {
         justify-content: center;
         border: 1px solid red;
 
+        @keyframes inAnim {
+            0% {
+                transform: translateY(10%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
         .project {
             position: relative;
             display: flex;
@@ -101,6 +112,8 @@ html {
             margin: 20px;
             padding: 20px;
 
+            animation: 0.25s ease-out 0s 1 inAnim;
+            will-change: opacity;
             border: 2px solid black;
             box-shadow: 4px 4px 8px #0004;
             color: black;

@@ -62,6 +62,7 @@ pub enum Tag {
     HTML,
     CSS,
     CSharp,
+    Lua,
 }
 
 trait StringIntoViewFn<G: Html> {
@@ -80,6 +81,25 @@ impl<G: Html> StringIntoViewFn<G> for &'static str {
 
 pub fn get_projects<G: Html>() -> Vec<Project<G>> {
     let mut ps = vec![
+        Project {
+            id: "swscript".into(),
+            name: "SWScript".into(),
+            icon: None,
+            date: Some(("2022".into(), None)),
+            tags: HashSet::from([Tag::Rust, Tag::Lua]),
+            short_desc: Arc::new(|cx| {
+                view! { cx,
+                    p { "Custom programming language and toolchain that bypasses the 4096 Lua character limit in Stormworks microcontrollers." }
+                    p { "Compiler written in Rust with interpreter written in Lua." }
+                }
+            }),
+            long_desc: Arc::new(|cx| {
+                view! { cx,
+                    p { "Custom programming language and toolchain that bypasses the 4096 Lua character limit in Stormworks microcontrollers." }
+                    p { "Compiler written in Rust with interpreter written in Lua." }
+                }
+            }),
+        },
         Project {
             id: "invmove".into(),
             name: "InvMove".into(),
@@ -187,72 +207,6 @@ pub fn get_projects<G: Html>() -> Vec<Project<G>> {
                     p { "An in-development casual game about running a marching band, with a focus on procedural generation." }
                 }
             }),
-        },
-        Project {
-            id: "test1".into(),
-            name: "Test 1".into(),
-            icon: Some("test".into()),
-            date: None,
-            short_desc: Arc::new(|cx| {
-                view! { cx,
-                    p {
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim ..."
-                    }
-                }
-            }),
-            long_desc: Arc::new(|cx| {
-                view! { cx,
-                    p {
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                    }
-                }
-            }),
-            tags: HashSet::from([Tag::Modding, Tag::Rust, Tag::Java]),
-        },
-        Project {
-            id: "test2".into(),
-            name: "Test 2".into(),
-            icon: Some("test2".into()),
-            date: None,
-            short_desc: "Description for test 2<br>here".into_view_fn(),
-            long_desc: "Description for test 2<br>here".into_view_fn(),
-            tags: HashSet::from([]),
-        },
-        Project {
-            id: "test3".into(),
-            name: "Test 3".into(),
-            icon: None,
-            date: None,
-            short_desc: "Description for test 3<br>here".into_view_fn(),
-            long_desc: "Description for test 3<br>here".into_view_fn(),
-            tags: HashSet::from([]),
-        },
-        Project {
-            id: "test4".into(),
-            name: "Test 4".into(),
-            icon: None,
-            date: None,
-            short_desc: "Description for test 4<br>here".into_view_fn(),
-            long_desc: "Description for test 4<br>here".into_view_fn(),
-            tags: HashSet::from([]),
-        },
-        Project {
-            id: "test4".into(),
-            name: "Test 4".into(),
-            icon: None,
-            date: None,
-            short_desc: "Description for test 4<br>here".into_view_fn(),
-            long_desc: "Description for test 4<br>here".into_view_fn(),
-            tags: HashSet::from([]),
-        },
-        Project {
-            id: "test4".into(),
-            name: "Test 4".into(),
-            icon: None,
-            date: None,
-            short_desc: "Description for test 4<br>here".into_view_fn(),
-            long_desc: "Description for test 4<br>here".into_view_fn(),
-            tags: HashSet::from([]),
         },
     ];
     ps.sort_by(|a, b| match a.date.as_ref() {
